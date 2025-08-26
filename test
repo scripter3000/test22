@@ -619,24 +619,23 @@ end
 
 -- Print summary and copy to clipboard
 print("\n=== VULNERABILITY SCAN RESULTS ===")
-print("Executor: " .. getexecname())
 
 if #vulnerableFunctions > 0 then
     print("\nâ›” VULNERABLE FUNCTIONS FOUND (" .. #vulnerableFunctions .. "):")
     
-    local clipboardText = "Vulnerable functions in " .. getexecname() .. ":\n"
+    local clipboardText = "VULNERABLE FUNCTIONS FOUND:\n\n"
     
-    for i, funcName in ipairs(vulnerableFunctions) do
-        print(i .. ". " .. funcName)
-        clipboardText = clipboardText .. i .. ". " .. funcName .. "\n"
+    for i, funcData in ipairs(vulnerableFunctions) do
+        print(i .. ". " .. funcData.name .. ": " .. funcData.message)
+        clipboardText = clipboardText .. i .. ". " .. funcData.name .. ": " .. funcData.message .. "\n\n"
     end
     
     -- Copy to clipboard
     if setclipboard then
         setclipboard(clipboardText)
-        print("\nList copied to clipboard!")
+        print("\nList with explanations copied to clipboard!")
     else
-        print("\nClipboard function not available. Here's the list:")
+        print("\nClipboard function not available. Here's the full list:")
         print(clipboardText)
     end
 else
